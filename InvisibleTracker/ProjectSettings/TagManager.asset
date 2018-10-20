@@ -14,6 +14,7 @@ TagManager:
   - Objects_Knight
   - Objects_Mat
   - Objects_Cat
+  - Controller
   layers:
   - Default
   - TransparentFX

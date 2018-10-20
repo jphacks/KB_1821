@@ -27,7 +27,16 @@ public class NetworkController : MonoBehaviour
 
     void OnJoinedRoom()
     {
-        SpawnObject();
+		GameObject[] cotrollers = GameObject.FindGameObjectsWithTag("Controller"); 
+		foreach (GameObject controller in cotrollers) {
+			var renderModel = controller.GetComponentInChildren<SteamVR_RenderModel> ();
+			if (renderModel != null) {
+				string renderModelName = renderModel.renderModelName;
+				if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
+					SpawnObject(controller);
+				}	
+			}
+		}
     }
 
     void OnPhotonRandomJoinFailed(object[] codeAndMsg)
@@ -35,10 +44,10 @@ public class NetworkController : MonoBehaviour
         PhotonNetwork.CreateRoom( ROOM_NAME, new RoomOptions(), TypedLobby.Default );
     }
 
-    public void SpawnObject()
+	public void SpawnObject(GameObject target)
     {
         GameObject obj  = PhotonNetwork.Instantiate( m_resourcePath, GetRandomPosition(), Quaternion.identity, 0 );
-        obj.transform.parent = transform;
+        obj.transform.parent = target.transform;
     }
 
     private Vector3 GetRandomPosition()

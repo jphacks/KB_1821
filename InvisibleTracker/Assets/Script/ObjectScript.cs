@@ -38,12 +38,14 @@ public class ObjectScript : MonoBehaviour {
 	void OnCollisionEnter (Collision col){
 		objectCollisionAudio.clip = objectCollisionClip[Random.Range (0,3)];
 		AudioSource.PlayClipAtPoint (objectCollisionAudio.clip, this.gameObject.transform.position);
+		/*
 		if(col.gameObject.tag == "TrackerA"){
 			scorePlayer = 1;
 		}
 		if(col.gameObject.tag == "TrackerB"){
 			scorePlayer = 2;
 		}
+		*/
 		//ゴールに入った処理
 		if(col.gameObject.tag == "Goal"){
 			Debug.Log ("Goalに衝突");

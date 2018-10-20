@@ -68,15 +68,6 @@ public class SteamVR_TrackedObject : MonoBehaviour
 			transform.localPosition = pose.pos;
 			transform.localRotation = pose.rot;
 		}
-
-		if (GetComponentInChildren<SteamVR_RenderModel> () != null) {
-			var renderModelName = GetComponentInChildren<SteamVR_RenderModel> ().renderModelName;
-			if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
-				NetworkController networkController = GetComponent<NetworkController> ();
-				networkController.m_resourcePath = "Prefabs/Temper";
-				networkController.SpawnObject ();
-			}	
-		}
 	}
 
 	SteamVR_Events.Action newPosesAction;
