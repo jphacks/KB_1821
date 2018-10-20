@@ -3,7 +3,7 @@ using UnityEngine;
 public class NetworkController : MonoBehaviour
 {
     [SerializeField]
-    private string  m_resourcePath  = "";
+    public string  m_resourcePath  = "";
     [SerializeField]
     private float   m_randomCircle  = 4.0f;
 
