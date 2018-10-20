@@ -31,7 +31,6 @@ public class TrackerScript : MonoBehaviour {
 
 		//オブジェクトと衝突したときの処理　効果音再生とオブジェクト情報の取得を行う
 		if(col.gameObject.tag == "Object"){
-			Debug.Log ("オブジェクトに当たった");
 			//1番OutPutから信号出力　LEDを光らせてぶつかっていることを通知
 			SteamVR_Controller.Input((int)trackedObject.index).TriggerHapticPulse((ushort)100);
 			//当たているオブジェクトを格納しておく　実施にゲットするのはキャッチ処理で行う
@@ -74,8 +73,8 @@ public class TrackerScript : MonoBehaviour {
 			CollisionObject.transform.parent = gameObject.transform; //ゲット処理　プレイヤのコントローラに追従するよう親子関係を紐づけ
 		}
 		//衝突判定がオンになっている間にボタン入力が入ったらオブジェクトをリリースする
-		if (Input.GetKeyDown (KeyCode.B) && collisionTrigger) {		//テスト用のキー操作
-		//if(releaseButtonTrigger && collisionTrigger){				//本番用のトラッカーボタン操作
+		//if (Input.GetKeyDown (KeyCode.B) && collisionTrigger) {		//テスト用のキー操作
+		if(releaseButtonTrigger && collisionTrigger){				//本番用のトラッカーボタン操作
 			TrackerAudio.clip = audioClips[2];						//鳴らす効果音をリリース効果音に差し替え
 			TrackerAudio.Play(); 									//リリース効果音再生
 			CollisionObject.transform.parent = null; 				//リリース処理　親子関係を解消して追従しないようにする
