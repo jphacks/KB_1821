@@ -34,6 +34,8 @@ public class NetworkController : MonoBehaviour
 				string renderModelName = renderModel.renderModelName;
 				if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
 					SpawnObject(controller);
+					NetworkCharacter networkCharacter = controller.GetComponentInChildren<NetworkCharacter> ();
+					networkCharacter.setControllerName (controller.transform.name);
 				}	
 			}
 		}
@@ -46,7 +48,7 @@ public class NetworkController : MonoBehaviour
 
 	public void SpawnObject(GameObject target)
     {
-        GameObject obj  = PhotonNetwork.Instantiate( m_resourcePath, GetRandomPosition(), Quaternion.identity, 0 );
+		GameObject obj  = PhotonNetwork.Instantiate( m_resourcePath, target.transform.position, Quaternion.identity, 0 );
         obj.transform.parent = target.transform;
     }
 
@@ -55,4 +57,4 @@ public class NetworkController : MonoBehaviour
         var rand = Random.insideUnitCircle * m_randomCircle;
         return rand;
     }
-} // class DemoNetwork
+}
