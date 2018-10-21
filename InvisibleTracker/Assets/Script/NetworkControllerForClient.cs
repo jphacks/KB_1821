@@ -18,6 +18,7 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 	void OnGUI()
 	{
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
+		GUILayout.Label(PlayerName);
 	}
 
 	void OnJoinedLobby()
