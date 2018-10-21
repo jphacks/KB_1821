@@ -26,17 +26,21 @@ public class ObjectScript : MonoBehaviour {
 
 	public int scorePlayer;
 
+	private int PlayerID;
+
 	void Start () {
 		m_SceneName = SceneManager.GetActiveScene ().name;
 		objectCollisionAudio = this.GetComponent<AudioSource> ();
-		if (m_SceneName == "HostServer") {
+		if (m_SceneName == "HostServer_Demo") {
 			GameManager = GameObject.Find("GameManagerForHost");
 			GameManagerScript = this.GetComponent<GameManagerScript> ();
 		}
-		else if (m_SceneName == "ClientServer") {
+		else if (m_SceneName == "ClientServer_Demo") {
 			GameManager = GameObject.Find("GameManagerForClient");
 			GameManagerScript = this.GetComponent<GameManagerScript> ();
 		}
+
+		PlayerID = PhotonNetwork.player.ID;
 
 	}
 	
@@ -51,16 +55,18 @@ public class ObjectScript : MonoBehaviour {
 		//ゴールに入った処理
 		if(col.gameObject.tag == "Goal"){
 			Debug.Log ("Goalに衝突");
-			switch (scorePlayer) {
+			switch (PlayerID) {
 			case 1:
 				GameManagerScript.scoreA += 10;
-				Destroy (gameObject);
 				break;
 			case 2:
+				GameManagerScript.scoreA += 10;
+				break;
+			case 3:
 				GameManagerScript.scoreB += 10;
-				Destroy (gameObject);
 				break;
 			}
+			Destroy (this.gameObject);
 		}
 	}
 }
