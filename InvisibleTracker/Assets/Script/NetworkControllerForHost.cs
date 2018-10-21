@@ -54,6 +54,10 @@ public class NetworkControllerForHost : MonoBehaviour
 		Debug.Log("OnPhotonPlayerConnected: " + player);
 	}
 
+	public void PlaySound(string ClipName, string PlayerName){
+		ScenePhotonView.RPC("PlaySound", PhotonTargets.Others, ClipName, PlayerName);
+	}
+
 	[PunRPC]
 	void SpawnObject(int PlayerID)
 	{
@@ -68,12 +72,14 @@ public class NetworkControllerForHost : MonoBehaviour
 						if (PlayerID == 2)
 						{
 							GameObject obj  = PhotonNetwork.Instantiate( m_resourcePath_A, controller.transform.position, Quaternion.identity, 0 );
+							obj.transform.name = "Player" + PlayerID;
 							obj.transform.parent = controller.transform;
 							break;
 						}
 						else if (PlayerID == 3)
 						{
 							GameObject obj  = PhotonNetwork.Instantiate( m_resourcePath_B, controller.transform.position, Quaternion.identity, 0 );
+							obj.transform.name = "Player" + PlayerID;
 							obj.transform.parent = controller.transform;
 							break;   
 						}

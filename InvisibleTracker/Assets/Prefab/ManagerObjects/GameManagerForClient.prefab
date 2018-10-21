@@ -179,3 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480f55158ede0894aae32989dda515c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TrackerAudio: {fileID: 0}
+  audioClips:
+  - {fileID: 8300000, guid: 918ee1b51fd32d748a66d520586569ba, type: 3}
+  - {fileID: 8300000, guid: f7c5046ea350a2c4b898e99dbca46c22, type: 3}
+  - {fileID: 8300000, guid: 8b41f948bb762da40bb0d4a353dafb33, type: 3}

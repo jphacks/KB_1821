@@ -16,9 +16,18 @@ public class TrackerScript : MonoBehaviour {
 
 	public GameObject CollisionObject; 	//いまトラッカーにぶつかっているオブジェクトを保持しておく変数
 
+	private NetworkControllerForHost NetworkInfo;
+
+	static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
+		Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>(true);
+		foreach (Transform t in ts) if (t.gameObject.name.IndexOf (withName) > -1) return t.gameObject;
+		return null;
+	}
+
 	void Start () {
 		trackedObject = GetComponent<SteamVR_TrackedObject>();	//トラッカー制御スクリプトの取得
 		TrackerAudio = GetComponent<AudioSource> ();			//効果音コンポーネントの取得
+		NetworkInfo = GameObject.Find("GameManagerForHostServer").GetComponent<NetworkControllerForHost> ();
 		collisionTrigger = false;								//衝突判定を切っておく
 	}
 
@@ -56,27 +65,49 @@ public class TrackerScript : MonoBehaviour {
 		releaseButtonTrigger = device.GetPress(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger);
 
 		//空振り時も効果音を鳴らしてあげる
-		if(catchButtonTrigger && !collisionTrigger){	
-			TrackerAudio.clip = audioClips[0];	//鳴らす効果音を空振り効果音に差し替え
-			TrackerAudio.Play(); 				//ゲット効果音再生
+		if(catchButtonTrigger && !collisionTrigger){
+			GameObject player = getChildGameObject (this.transform.gameObject, "Player");
+			Debug.Log ("Button was pushed");
+			if(player != null)
+			{
+				Debug.Log ("Call SOUND");
+				NetworkInfo.PlaySound ("Missed", player.transform.name);
+			}
+			//TrackerAudio.clip = audioClips[0];	//鳴らす効果音を空振り効果音に差し替え
+			//TrackerAudio.Play(); 				//ゲット効果音再生
 		}
 		if(releaseButtonTrigger && !collisionTrigger){	
-			TrackerAudio.clip = audioClips[0];	//鳴らす効果音を空振り効果音に差し替え
-			TrackerAudio.Play(); 				//ゲット効果音再生
+			GameObject player = getChildGameObject (this.transform.gameObject, "Player");
+			Debug.Log ("Button was pushed");
+			if(player != null)
+			{
+				Debug.Log ("Call SOUND");
+				NetworkInfo.PlaySound ("Missed", player.transform.name);
+			}
 		}
 
 		//衝突判定がオンになっている間にボタン入力が入ったらオブジェクトをゲットする
 		//if (Input.GetKeyDown (KeyCode.A) && collisionTrigger) {		//テスト用のキー操作
 		if(catchButtonTrigger && collisionTrigger){				//本番用のトラッカーボタン操作
-			TrackerAudio.clip = audioClips[1];						//鳴らす効果音をゲット効果音に差し替え
-			TrackerAudio.Play(); 									//ゲット効果音再生
+			GameObject player = getChildGameObject (this.transform.gameObject, "Player");
+			Debug.Log ("Button was pushed");
+			if(player != null)
+			{
+				Debug.Log ("Call SOUND");
+				NetworkInfo.PlaySound ("Grap", player.transform.name);
+			}
 			CollisionObject.transform.parent = gameObject.transform; //ゲット処理　プレイヤのコントローラに追従するよう親子関係を紐づけ
 		}
 		//衝突判定がオンになっている間にボタン入力が入ったらオブジェクトをリリースする
 		//if (Input.GetKeyDown (KeyCode.B) && collisionTrigger) {		//テスト用のキー操作
 		if(releaseButtonTrigger && collisionTrigger){				//本番用のトラッカーボタン操作
-			TrackerAudio.clip = audioClips[2];						//鳴らす効果音をリリース効果音に差し替え
-			TrackerAudio.Play(); 									//リリース効果音再生
+			GameObject player = getChildGameObject (this.transform.gameObject, "Player");
+			Debug.Log ("Button was pushed");
+			if(player != null)
+			{
+				Debug.Log ("Call SOUND");
+				NetworkInfo.PlaySound ("Release", player.transform.name);
+			} 									//リリース効果音再生
 			CollisionObject.transform.parent = null; 				//リリース処理　親子関係を解消して追従しないようにする
 		}
 	}
