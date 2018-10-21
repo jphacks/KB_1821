@@ -24,6 +24,11 @@ public class NetworkControllerForHost : MonoBehaviour
 		ScenePhotonView = this.GetComponent<PhotonView>();
 	}
 
+	void Update()
+	{
+		Debug.Log(PhotonNetwork.connectionStateDetailed.ToString());
+	}
+
 	void OnGUI()
 	{
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());

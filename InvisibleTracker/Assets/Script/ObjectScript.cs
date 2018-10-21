@@ -18,34 +18,33 @@ public class ObjectScript : MonoBehaviour {
 	public AudioClip[] objectCollisionClip;
 
 	string m_SceneName;
-	public GameObject GameManager;
-	public GameManagerScript GameManagerScript;
+	private GameObject gameManager;
+	private GameManagerScript gameManagerScript;
 
-	public int PlayerAscore;
-	public int PlayerBscore;
+	// public int PlayerAscore;
+	// public int PlayerBscore;
 
-	public int scorePlayer;
+	// public int scorePlayer;
 
 	private int PlayerID;
 
 	void Start () {
 		m_SceneName = SceneManager.GetActiveScene ().name;
 		objectCollisionAudio = this.GetComponent<AudioSource> ();
+
 		if (m_SceneName == "HostServer_Demo") {
-			GameManager = GameObject.Find("GameManagerForHost");
-			GameManagerScript = this.GetComponent<GameManagerScript> ();
+			gameManager = GameObject.Find("GameManagerForHostServer");
+			gameManagerScript = gameManager.GetComponent<GameManagerScript> ();
+
 		}
 		else if (m_SceneName == "ClientServer_Demo") {
-			GameManager = GameObject.Find("GameManagerForClient");
-			GameManagerScript = this.GetComponent<GameManagerScript> ();
+			gameManager = GameObject.Find("GameManagerForClient");
+			gameManagerScript = gameManager.GetComponent<GameManagerScript> ();
 		}
-
-		PlayerID = PhotonNetwork.player.ID;
-
+		PlayerID = 1;
 	}
 	
 	void Update () {
-		
 	}
 
 	void OnCollisionEnter (Collision col){
@@ -57,13 +56,19 @@ public class ObjectScript : MonoBehaviour {
 			Debug.Log ("Goalに衝突");
 			switch (PlayerID) {
 			case 1:
-				GameManagerScript.scoreA += 10;
+				gameManagerScript.scoreA += 10;
+				Debug.Log(gameManagerScript.scoreA);
+				Debug.Log(gameManagerScript.scoreB);
 				break;
 			case 2:
-				GameManagerScript.scoreA += 10;
+				gameManagerScript.scoreA += 10;
+				Debug.Log(gameManagerScript.scoreA);
+				Debug.Log(gameManagerScript.scoreB);
 				break;
 			case 3:
-				GameManagerScript.scoreB += 10;
+				gameManagerScript.scoreB += 10;
+				Debug.Log(gameManagerScript.scoreA);
+				Debug.Log(gameManagerScript.scoreB);
 				break;
 			}
 			Destroy (this.gameObject);
