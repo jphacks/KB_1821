@@ -43,4 +43,5 @@ MonoBehaviour:
   - RequestForPickupTimes
   - TaggedPlayer
   - SpawnObject
+  - PlaySound
   DisableAutoOpenWizard: 1

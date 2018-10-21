@@ -9,16 +9,25 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 
 	private string PlayerName = "";
 
+	public AudioSource TrackerAudio;
+	public AudioClip[] audioClips;
+
+	private string clipname = "";
+	private string playername = "";
+
 	void Start()
 	{
 		PhotonNetwork.ConnectUsingSettings( "v.1.0.0" );
 		ScenePhotonView = this.GetComponent<PhotonView>();
+		TrackerAudio = GetComponent<AudioSource> ();
 	}
 
 	void OnGUI()
 	{
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 		GUILayout.Label(PlayerName);
+		GUILayout.Label(clipname);
+		GUILayout.Label(playername);
 	}
 
 	void OnJoinedLobby()
@@ -37,6 +46,22 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 		ScenePhotonView.RPC("SpawnObject", PhotonTargets.MasterClient, PlayerID);
 		PlayerName = "Player" + PlayerID;
 		Debug.Log(PlayerName);
+	}
+
+	[PunRPC]
+	void PlaySound(string ClipName, string r_PlayerName)
+	{
+		if (r_PlayerName == PlayerName) {
+			clipname = ClipName;
+			playername = r_PlayerName;
+
+			foreach (AudioClip clip in audioClips) {
+				if (clip.name == ClipName) {
+					TrackerAudio.clip = clip;
+					TrackerAudio.Play ();
+				}
+			}
+		}
 	}
 
 	public string GetPlayerName(){
