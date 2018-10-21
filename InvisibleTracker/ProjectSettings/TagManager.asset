@@ -3,7 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - FxTemporaire
+  - Tracker
+  - TrackerB
+  - projectile
+  - Goal
+  - TrackerA
+  - Object
+  - Objects_Knight
+  - Objects_Mat
+  - Objects_Cat
+  - Controller
   layers:
   - Default
   - TransparentFX

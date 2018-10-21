@@ -79,14 +79,15 @@ public class SteamVR_TrackedObject : MonoBehaviour
 
 	void OnEnable()
 	{
+		
 		var render = SteamVR_Render.instance;
 		if (render == null)
 		{
 			enabled = false;
 			return;
 		}
-
 		newPosesAction.enabled = true;
+
 	}
 
 	void OnDisable()
@@ -100,5 +101,6 @@ public class SteamVR_TrackedObject : MonoBehaviour
 		if (System.Enum.IsDefined(typeof(EIndex), index))
 			this.index = (EIndex)index;
 	}
+
 }
 

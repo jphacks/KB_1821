@@ -49,6 +49,6 @@ public class GameManagerScript : MonoBehaviour {
 		}
 	}
 	public void Retry(){
-		SceneManager.LoadScene ("MainScene");
+		SceneManager.LoadScene ("HostServer");
 	}
 }
