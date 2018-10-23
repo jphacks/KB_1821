@@ -76,12 +76,12 @@ public class NetworkControllerForHost : MonoBehaviour
 	{
 		GameObject[] cotrollers = GameObject.FindGameObjectsWithTag("Controller"); 
 		foreach (GameObject controller in cotrollers) {
-			var renderModel = controller.GetComponentInChildren<SteamVR_RenderModel> ();
-			if (renderModel != null) {
+			// var renderModel = controller.GetComponentInChildren<SteamVR_RenderModel> ();
+			// if (renderModel != null) {
 				if(getChildGameObject(controller, "Player") == null)
 				{
-					string renderModelName = renderModel.renderModelName;
-					if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
+					// string renderModelName = renderModel.renderModelName;
+					// if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
 						if (PlayerID == 2)
 						{
 							GameObject obj  = PhotonNetwork.Instantiate( m_resourcePath_A, controller.transform.position, Quaternion.identity, 0 );
@@ -96,10 +96,10 @@ public class NetworkControllerForHost : MonoBehaviour
 							obj.transform.parent = controller.transform;
 							break;   
 						}
-					}
+					// }
 				}
 					
-			}
+			// }
 		}
 	}
 
