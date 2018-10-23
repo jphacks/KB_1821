@@ -30,10 +30,10 @@ public class ObjectScript : MonoBehaviour {
 
 	void Start () {
 		objectCollisionAudio = this.GetComponent<AudioSource> ();
-		networkInfo = this.GetComponent<NetworkControllerForHost> ();
 
 		gameManager = GameObject.Find("GameManagerForHostServer");
 		gameManagerScript = gameManager.GetComponent<GameManagerScript> ();
+		networkInfo = gameManager.GetComponent<NetworkControllerForHost> ();
 	}
 	
 	void Update () {
@@ -47,11 +47,9 @@ public class ObjectScript : MonoBehaviour {
 		{
 			string playerName = player.transform.name;
 
-			Debug.LogFormat ("Call Sound [{0}]", objectName);
-			networkInfo.PlaySound (objectName, playerName, "Object");
+			Debug.LogFormat ("Call Sound [{0}] by [{1}]", objectName, playerName);
 
-			// objectCollisionAudio.clip = objectCollisionClip[Random.Range (0,3)];
-			// AudioSource.PlayClipAtPoint (objectCollisionAudio.clip, this.gameObject.transform.position);
+			networkInfo.PlaySound (objectName, playerName, "Object");
 
 			if(col.gameObject.tag == "Goal"){
 				Debug.Log ("in Goal!");
