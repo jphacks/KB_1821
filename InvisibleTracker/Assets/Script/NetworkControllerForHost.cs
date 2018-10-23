@@ -10,7 +10,7 @@ public class NetworkControllerForHost : MonoBehaviour
 	private const string ROOM_NAME  = "RoomA";
 
 	private static PhotonView ScenePhotonView;
-	public static int playerWhoIsIt;
+	public static int playerID;
 
 	static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
 		Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>(true);
@@ -43,10 +43,10 @@ public class NetworkControllerForHost : MonoBehaviour
 	{
 		if (PhotonNetwork.playerList.Length == 1)
 		{
-			playerWhoIsIt = PhotonNetwork.player.ID;
+			playerID = PhotonNetwork.player.ID;
 		}
 
-		Debug.Log("playerWhoIsIt: " + playerWhoIsIt);
+		Debug.Log("playerID: " + playerID);
 	}
 
 	void OnPhotonRandomJoinFailed(object[] codeAndMsg)
@@ -59,8 +59,16 @@ public class NetworkControllerForHost : MonoBehaviour
 		Debug.Log("OnPhotonPlayerConnected: " + player);
 	}
 
-	public void PlaySound(string ClipName, string PlayerName){
-		ScenePhotonView.RPC("PlaySound", PhotonTargets.Others, ClipName, PlayerName);
+	public void PlaySound(string ClipName, string PlayerName, string mode){
+		if(mode == "Controller")
+		{
+			ScenePhotonView.RPC("PlayControllerSound", PhotonTargets.Others, ClipName, PlayerName);
+		}
+		else if(mode == "Object")
+		{
+			ScenePhotonView.RPC("PlayObjectSound", PhotonTargets.Others, ClipName, PlayerName);
+		}
+		
 	}
 
 	[PunRPC]
@@ -94,4 +102,5 @@ public class NetworkControllerForHost : MonoBehaviour
 			}
 		}
 	}
+
 }

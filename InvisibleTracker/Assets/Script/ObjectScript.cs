@@ -20,52 +20,45 @@ public class ObjectScript : MonoBehaviour {
 	string m_SceneName;
 	private GameObject gameManager;
 	private GameManagerScript gameManagerScript;
-
-	// public int PlayerAscore;
-	// public int PlayerBscore;
-
-	// public int scorePlayer;
-
-	private int PlayerID;
+	private NetworkControllerForHost networkInfo;
+	
+	static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
+		Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>(true);
+		foreach (Transform t in ts) if (t.gameObject.name.IndexOf (withName) > -1) return t.gameObject;
+		return null;
+	}
 
 	void Start () {
-		m_SceneName = SceneManager.GetActiveScene ().name;
 		objectCollisionAudio = this.GetComponent<AudioSource> ();
+		networkInfo = this.GetComponent<NetworkControllerForHost> ();
 
-		if (m_SceneName == "HostServer_Demo") {
-			gameManager = GameObject.Find("GameManagerForHostServer");
-			gameManagerScript = gameManager.GetComponent<GameManagerScript> ();
-
-		}
-		else if (m_SceneName == "ClientServer_Demo") {
-			gameManager = GameObject.Find("GameManagerForClient");
-			gameManagerScript = gameManager.GetComponent<GameManagerScript> ();
-		}
-		PlayerID = 1;
+		gameManager = GameObject.Find("GameManagerForHostServer");
+		gameManagerScript = gameManager.GetComponent<GameManagerScript> ();
 	}
 	
 	void Update () {
 	}
 
 	void OnCollisionEnter (Collision col){
-		objectCollisionAudio.clip = objectCollisionClip[Random.Range (0,3)];
-		AudioSource.PlayClipAtPoint (objectCollisionAudio.clip, this.gameObject.transform.position);
+		string objectName = this.transform.name;
+		GameObject player = getChildGameObject (col.transform.gameObject, "Player");
+		string playerName = player.transform.name;
 
-		//ゴールに入った処理
+		Debug.LogFormat ("Call Sound [{0}]", objectName);
+		networkInfo.PlaySound (objectName, playerName, "Object");
+
+		// objectCollisionAudio.clip = objectCollisionClip[Random.Range (0,3)];
+		// AudioSource.PlayClipAtPoint (objectCollisionAudio.clip, this.gameObject.transform.position);
+
 		if(col.gameObject.tag == "Goal"){
-			Debug.Log ("Goalに衝突");
-			switch (PlayerID) {
-			case 1:
+			Debug.Log ("in Goal!");
+			switch (playerName) {
+			case "Player2":
 				gameManagerScript.scoreA += 10;
 				Debug.Log(gameManagerScript.scoreA);
 				Debug.Log(gameManagerScript.scoreB);
 				break;
-			case 2:
-				gameManagerScript.scoreA += 10;
-				Debug.Log(gameManagerScript.scoreA);
-				Debug.Log(gameManagerScript.scoreB);
-				break;
-			case 3:
+			case "Player3":
 				gameManagerScript.scoreB += 10;
 				Debug.Log(gameManagerScript.scoreA);
 				Debug.Log(gameManagerScript.scoreB);
