@@ -21,7 +21,7 @@ public class ObjectScript : MonoBehaviour {
 	private GameObject gameManager;
 	private GameManagerScript gameManagerScript;
 	private NetworkControllerForHost networkInfo;
-	
+
 	static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
 		Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>(true);
 		foreach (Transform t in ts) if (t.gameObject.name.IndexOf (withName) > -1) return t.gameObject;
@@ -42,29 +42,33 @@ public class ObjectScript : MonoBehaviour {
 	void OnCollisionEnter (Collision col){
 		string objectName = this.transform.name;
 		GameObject player = getChildGameObject (col.transform.gameObject, "Player");
-		string playerName = player.transform.name;
 
-		Debug.LogFormat ("Call Sound [{0}]", objectName);
-		networkInfo.PlaySound (objectName, playerName, "Object");
+		if (player != null)
+		{
+			string playerName = player.transform.name;
 
-		// objectCollisionAudio.clip = objectCollisionClip[Random.Range (0,3)];
-		// AudioSource.PlayClipAtPoint (objectCollisionAudio.clip, this.gameObject.transform.position);
+			Debug.LogFormat ("Call Sound [{0}]", objectName);
+			networkInfo.PlaySound (objectName, playerName, "Object");
 
-		if(col.gameObject.tag == "Goal"){
-			Debug.Log ("in Goal!");
-			switch (playerName) {
-			case "Player2":
-				gameManagerScript.scoreA += 10;
-				Debug.Log(gameManagerScript.scoreA);
-				Debug.Log(gameManagerScript.scoreB);
-				break;
-			case "Player3":
-				gameManagerScript.scoreB += 10;
-				Debug.Log(gameManagerScript.scoreA);
-				Debug.Log(gameManagerScript.scoreB);
-				break;
+			// objectCollisionAudio.clip = objectCollisionClip[Random.Range (0,3)];
+			// AudioSource.PlayClipAtPoint (objectCollisionAudio.clip, this.gameObject.transform.position);
+
+			if(col.gameObject.tag == "Goal"){
+				Debug.Log ("in Goal!");
+				switch (playerName) {
+				case "Player2":
+					gameManagerScript.scoreA += 10;
+					Debug.Log(gameManagerScript.scoreA);
+					Debug.Log(gameManagerScript.scoreB);
+					break;
+				case "Player3":
+					gameManagerScript.scoreB += 10;
+					Debug.Log(gameManagerScript.scoreA);
+					Debug.Log(gameManagerScript.scoreB);
+					break;
+				}
+				Destroy (this.gameObject);
 			}
-			Destroy (this.gameObject);
 		}
 	}
 }
