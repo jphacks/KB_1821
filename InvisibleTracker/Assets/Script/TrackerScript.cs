@@ -67,22 +67,20 @@ public class TrackerScript : MonoBehaviour {
 		//空振り時も効果音を鳴らしてあげる
 		if(catchButtonTrigger && !collisionTrigger){
 			GameObject player = getChildGameObject (this.transform.gameObject, "Player");
-			Debug.Log ("Button was pushed");
 			if(player != null)
 			{
-				Debug.Log ("Call SOUND");
-				NetworkInfo.PlaySound ("Missed", player.transform.name);
+				Debug.Log ("Call Sound [Missed]");
+				NetworkInfo.PlaySound ("Missed", player.transform.name, "Controller");
 			}
 			//TrackerAudio.clip = audioClips[0];	//鳴らす効果音を空振り効果音に差し替え
 			//TrackerAudio.Play(); 				//ゲット効果音再生
 		}
 		if(releaseButtonTrigger && !collisionTrigger){	
 			GameObject player = getChildGameObject (this.transform.gameObject, "Player");
-			Debug.Log ("Button was pushed");
 			if(player != null)
 			{
-				Debug.Log ("Call SOUND");
-				NetworkInfo.PlaySound ("Missed", player.transform.name);
+				Debug.Log ("Call Sound [Missed]");
+				NetworkInfo.PlaySound ("Missed", player.transform.name, "Controller");
 			}
 		}
 
@@ -90,11 +88,10 @@ public class TrackerScript : MonoBehaviour {
 		//if (Input.GetKeyDown (KeyCode.A) && collisionTrigger) {		//テスト用のキー操作
 		if(catchButtonTrigger && collisionTrigger){				//本番用のトラッカーボタン操作
 			GameObject player = getChildGameObject (this.transform.gameObject, "Player");
-			Debug.Log ("Button was pushed");
 			if(player != null)
 			{
-				Debug.Log ("Call SOUND");
-				NetworkInfo.PlaySound ("Grap", player.transform.name);
+				Debug.Log ("Call Sound [Catch]");
+				NetworkInfo.PlaySound ("Catch", player.transform.name, "Controller");
 			}
 			CollisionObject.transform.parent = gameObject.transform; //ゲット処理　プレイヤのコントローラに追従するよう親子関係を紐づけ
 		}
@@ -102,11 +99,10 @@ public class TrackerScript : MonoBehaviour {
 		//if (Input.GetKeyDown (KeyCode.B) && collisionTrigger) {		//テスト用のキー操作
 		if(releaseButtonTrigger && collisionTrigger){				//本番用のトラッカーボタン操作
 			GameObject player = getChildGameObject (this.transform.gameObject, "Player");
-			Debug.Log ("Button was pushed");
 			if(player != null)
 			{
-				Debug.Log ("Call SOUND");
-				NetworkInfo.PlaySound ("Release", player.transform.name);
+				Debug.Log ("Call Sound [Release]");
+				NetworkInfo.PlaySound ("Release", player.transform.name, "Controller");
 			} 									//リリース効果音再生
 			CollisionObject.transform.parent = null; 				//リリース処理　親子関係を解消して追従しないようにする
 		}

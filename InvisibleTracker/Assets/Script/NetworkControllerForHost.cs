@@ -10,7 +10,7 @@ public class NetworkControllerForHost : MonoBehaviour
 	private const string ROOM_NAME  = "RoomA";
 
 	private static PhotonView ScenePhotonView;
-	public static int playerWhoIsIt;
+	public static int playerID;
 
 	static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
 		Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>(true);
@@ -22,6 +22,11 @@ public class NetworkControllerForHost : MonoBehaviour
 	{
 		PhotonNetwork.ConnectUsingSettings( "v.1.0.0" );
 		ScenePhotonView = this.GetComponent<PhotonView>();
+	}
+
+	void Update()
+	{
+		Debug.Log(PhotonNetwork.connectionStateDetailed.ToString());
 	}
 
 	void OnGUI()
@@ -38,10 +43,10 @@ public class NetworkControllerForHost : MonoBehaviour
 	{
 		if (PhotonNetwork.playerList.Length == 1)
 		{
-			playerWhoIsIt = PhotonNetwork.player.ID;
+			playerID = PhotonNetwork.player.ID;
 		}
 
-		Debug.Log("playerWhoIsIt: " + playerWhoIsIt);
+		Debug.Log("playerID: " + playerID);
 	}
 
 	void OnPhotonRandomJoinFailed(object[] codeAndMsg)
@@ -54,8 +59,16 @@ public class NetworkControllerForHost : MonoBehaviour
 		Debug.Log("OnPhotonPlayerConnected: " + player);
 	}
 
-	public void PlaySound(string ClipName, string PlayerName){
-		ScenePhotonView.RPC("PlaySound", PhotonTargets.Others, ClipName, PlayerName);
+	public void PlaySound(string ClipName, string PlayerName, string mode){
+		if(mode == "Controller")
+		{
+			ScenePhotonView.RPC("PlayControllerSound", PhotonTargets.Others, ClipName, PlayerName);
+		}
+		else if(mode == "Object")
+		{
+			ScenePhotonView.RPC("PlayObjectSound", PhotonTargets.Others, ClipName, PlayerName);
+		}
+		
 	}
 
 	[PunRPC]
@@ -63,12 +76,12 @@ public class NetworkControllerForHost : MonoBehaviour
 	{
 		GameObject[] cotrollers = GameObject.FindGameObjectsWithTag("Controller"); 
 		foreach (GameObject controller in cotrollers) {
-			var renderModel = controller.GetComponentInChildren<SteamVR_RenderModel> ();
-			if (renderModel != null) {
+			// var renderModel = controller.GetComponentInChildren<SteamVR_RenderModel> ();
+			// if (renderModel != null) {
 				if(getChildGameObject(controller, "Player") == null)
 				{
-					string renderModelName = renderModel.renderModelName;
-					if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
+					// string renderModelName = renderModel.renderModelName;
+					// if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
 						if (PlayerID == 2)
 						{
 							GameObject obj  = PhotonNetwork.Instantiate( m_resourcePath_A, controller.transform.position, Quaternion.identity, 0 );
@@ -83,10 +96,11 @@ public class NetworkControllerForHost : MonoBehaviour
 							obj.transform.parent = controller.transform;
 							break;   
 						}
-					}
+					// }
 				}
 					
-			}
+			// }
 		}
 	}
+
 }

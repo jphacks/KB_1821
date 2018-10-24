@@ -7,13 +7,14 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 	private const string ROOM_NAME  = "RoomA";
 	private static PhotonView ScenePhotonView;
 
-	private string PlayerName = "";
+	private string playerName = "";
 
 	public AudioSource TrackerAudio;
-	public AudioClip[] audioClips;
+	public AudioClip[] controllerAudioClips;
+	public AudioClip[] objectAudioClips;
 
-	private string clipname = "";
-	private string playername = "";
+	// For Debug
+	private string clipName = "";
 
 	void Start()
 	{
@@ -25,9 +26,8 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 	void OnGUI()
 	{
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
-		GUILayout.Label(PlayerName);
-		GUILayout.Label(clipname);
-		GUILayout.Label(playername);
+		GUILayout.Label(playerName);
+		GUILayout.Label(clipName);
 	}
 
 	void OnJoinedLobby()
@@ -42,20 +42,34 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 
 	void OnJoinedRoom()
 	{
-		int PlayerID = PhotonNetwork.player.ID;
-		ScenePhotonView.RPC("SpawnObject", PhotonTargets.MasterClient, PlayerID);
-		PlayerName = "Player" + PlayerID;
-		Debug.Log(PlayerName);
+		int playerID = PhotonNetwork.player.ID;
+		ScenePhotonView.RPC("SpawnObject", PhotonTargets.MasterClient, playerID);
+		playerName = "Player" + playerID;
+		Debug.Log(playerName);
 	}
 
 	[PunRPC]
-	void PlaySound(string ClipName, string r_PlayerName)
+	void PlayControllerSound(string ClipName, string r_PlayerName)
 	{
-		if (r_PlayerName == PlayerName) {
-			clipname = ClipName;
-			playername = r_PlayerName;
+		if (r_PlayerName == this.playerName) {
+			clipName = ClipName;
 
-			foreach (AudioClip clip in audioClips) {
+			foreach (AudioClip clip in controllerAudioClips) {
+				if (clip.name == ClipName) {
+					TrackerAudio.clip = clip;
+					TrackerAudio.Play ();
+				}
+			}
+		}
+	}
+
+	[PunRPC]
+	void PlayObjectSound(string ClipName, string r_PlayerName)
+	{
+		if (r_PlayerName == this.playerName) {
+			clipName = ClipName;
+
+			foreach (AudioClip clip in objectAudioClips) {
 				if (clip.name == ClipName) {
 					TrackerAudio.clip = clip;
 					TrackerAudio.Play ();
@@ -65,6 +79,6 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 	}
 
 	public string GetPlayerName(){
-		return this.PlayerName;
+		return this.playerName;
 	}
 }
