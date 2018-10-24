@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114633458489208638}
   - component: {fileID: 114974015249936770}
   - component: {fileID: 114090999137161358}
+  - component: {fileID: 81412082494370070}
   m_Layer: 0
   m_Name: GameManagerForClient
   m_TagString: Untagged
@@ -43,6 +44,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &81412082494370070
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160654786323322}
+  m_Enabled: 1
 --- !u!82 &82908144048756460
 AudioSource:
   m_ObjectHideFlags: 1
@@ -155,7 +163,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1160654786323322}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf20175ffc5c5e743bd440a4b5a846ef, type: 3}
   m_Name: 
@@ -180,7 +188,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TrackerAudio: {fileID: 0}
-  audioClips:
-  - {fileID: 8300000, guid: 918ee1b51fd32d748a66d520586569ba, type: 3}
+  controllerAudioClips:
   - {fileID: 8300000, guid: f7c5046ea350a2c4b898e99dbca46c22, type: 3}
+  - {fileID: 8300000, guid: 918ee1b51fd32d748a66d520586569ba, type: 3}
   - {fileID: 8300000, guid: 8b41f948bb762da40bb0d4a353dafb33, type: 3}
+  objectAudioClips:
+  - {fileID: 8300000, guid: d10579dea7134d648bf1bb596dc7e2fb, type: 3}
+  - {fileID: 8300000, guid: e2e416c5a1f265f47afa11653397586a, type: 3}
+  - {fileID: 8300000, guid: f3aef4ce4398a5d4eaf50d17dfc15350, type: 3}

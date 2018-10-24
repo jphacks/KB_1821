@@ -44,4 +44,6 @@ MonoBehaviour:
   - TaggedPlayer
   - SpawnObject
   - PlaySound
+  - PlayControllerSound
+  - PlayObjectSound
   DisableAutoOpenWizard: 1
