@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 82224878872658642}
   - component: {fileID: 114734063085605712}
   - component: {fileID: 114931609156677684}
+  - component: {fileID: 114522240614040592}
   - component: {fileID: 114004569657349282}
   m_Layer: 0
   m_Name: GameManagerForHostServer
@@ -149,6 +150,17 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114522240614040592
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1692365549833780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a23adb48e4c34fc49933fb62269f26d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114734063085605712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameend: 1
-  gameTime: 1000
+  gameTime: 60
   scoreA: 0
   scoreB: 0
   TimeText: {fileID: 0}
@@ -181,3 +193,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_resourcePath_A: Prefabs/Player2
   m_resourcePath_B: Prefabs/Player3
+  objectList: []

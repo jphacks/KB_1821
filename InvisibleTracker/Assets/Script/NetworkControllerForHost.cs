@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon;
 
-public class NetworkControllerForHost : MonoBehaviour
+public class NetworkControllerForHost : Photon.MonoBehaviour
 {
 	[SerializeField]
 	private string  m_resourcePath_A  = "";
@@ -110,20 +111,4 @@ public class NetworkControllerForHost : MonoBehaviour
 			// }
 		}
 	}
-
-	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            // We own this player: send the others our data
-            // stream.SendNext(transform.position);
-            // stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            // Network player, receive data
-            // this.correctPlayerPos = (Vector3)stream.ReceiveNext();
-            // this.correctPlayerRot = (Quaternion)stream.ReceiveNext();
-        }
-    }
 }

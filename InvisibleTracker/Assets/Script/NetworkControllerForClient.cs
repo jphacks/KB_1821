@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using Photon;
 
-public class NetworkControllerForClient : Photon.PunBehaviour
+public class NetworkControllerForClient : Photon.MonoBehaviour
 {
 	[SerializeField]
 	private const string ROOM_NAME  = "RoomA";
 	private static PhotonView ScenePhotonView;
+
+	private SoundController soundInfo;
 
 	private string playerName = "";
 
@@ -21,6 +23,7 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 		PhotonNetwork.ConnectUsingSettings( "v.1.0.0" );
 		ScenePhotonView = this.GetComponent<PhotonView>();
 		TrackerAudio = GetComponent<AudioSource> ();
+		soundInfo = GameObject.Find("SoundManager").GetComponent<SoundController> ();
 	}
 
 	void OnGUI()
@@ -28,6 +31,8 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 		GUILayout.Label(playerName);
 		GUILayout.Label(clipName);
+		GUILayout.Label(soundInfo.hensu1.ToString());
+		GUILayout.Label(soundInfo.hensu2.ToString());
 	}
 
 	void OnJoinedLobby()
@@ -81,20 +86,4 @@ public class NetworkControllerForClient : Photon.PunBehaviour
 	public string GetPlayerName(){
 		return this.playerName;
 	}
-
-	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            // We own this player: send the others our data
-            // stream.SendNext(transform.position);
-            // stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            // Network player, receive data
-            // this.correctPlayerPos = (Vector3)stream.ReceiveNext();
-            // this.correctPlayerRot = (Quaternion)stream.ReceiveNext();
-        }
-    }
 }

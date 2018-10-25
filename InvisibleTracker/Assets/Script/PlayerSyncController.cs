@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 public class PlayerSyncController : MonoBehaviour
 {
-	[SerializeField]
-    private Dictionary<string, float> objectDistanceDict = new Dictionary<string,float> ();
+    public Dictionary<string, float> objectDistanceDict = new Dictionary<string,float> ();
 
     private static float volumeMin = 0.0f;
     private static float volumeMax = 1.0f;
@@ -48,8 +47,6 @@ public class PlayerSyncController : MonoBehaviour
             float volume = Mathf.Lerp(volumeMin, volumeMax, lerped_distance);
 
             objectDistanceDict[target_name] = volume;
-            // Debug.Log (col.transform.name + " : " + volume);
-            // Debug.Log (col.transform.name + " : " + volume);
         }
     }
 

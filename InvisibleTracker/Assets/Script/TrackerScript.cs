@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
 
-public class TrackerScript : MonoBehaviour {
+public class TrackerScript : Photon.MonoBehaviour {
 
 	public SteamVR_TrackedObject trackedObject;	//SteamVRでViveトラッカーを扱う宣言
 
