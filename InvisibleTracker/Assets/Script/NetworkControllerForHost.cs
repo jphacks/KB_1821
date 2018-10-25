@@ -6,11 +6,16 @@ public class NetworkControllerForHost : MonoBehaviour
 	private string  m_resourcePath_A  = "";
 	[SerializeField]
 	private string  m_resourcePath_B  = "";
+	[SerializeField]
+	private GameObject[] objectList = null; // We lerp towards this
 
 	private const string ROOM_NAME  = "RoomA";
 
 	private static PhotonView ScenePhotonView;
 	public static int playerID;
+
+	private GameObject PlayerA = null;
+	private GameObject PlayerB = null;
 
 	static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
 		Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>(true);
@@ -22,6 +27,9 @@ public class NetworkControllerForHost : MonoBehaviour
 	{
 		PhotonNetwork.ConnectUsingSettings( "v.1.0.0" );
 		ScenePhotonView = this.GetComponent<PhotonView>();
+		
+		PlayerA = (GameObject) Resources.Load("Prefabs/Player2");
+		PlayerB = (GameObject) Resources.Load("Prefabs/Player3");
 	}
 
 	void Update()
@@ -84,14 +92,14 @@ public class NetworkControllerForHost : MonoBehaviour
 					// if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
 						if (PlayerID == 2)
 						{
-							GameObject obj  = PhotonNetwork.Instantiate( m_resourcePath_A, controller.transform.position, Quaternion.identity, 0 );
+							GameObject obj  = Instantiate( PlayerA, controller.transform.position, Quaternion.identity);
 							obj.transform.name = "Player" + PlayerID;
 							obj.transform.parent = controller.transform;
 							break;
 						}
 						else if (PlayerID == 3)
 						{
-							GameObject obj  = PhotonNetwork.Instantiate( m_resourcePath_B, controller.transform.position, Quaternion.identity, 0 );
+							GameObject obj  = Instantiate( PlayerB, controller.transform.position, Quaternion.identity);
 							obj.transform.name = "Player" + PlayerID;
 							obj.transform.parent = controller.transform;
 							break;   
@@ -103,4 +111,19 @@ public class NetworkControllerForHost : MonoBehaviour
 		}
 	}
 
+	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            // We own this player: send the others our data
+            // stream.SendNext(transform.position);
+            // stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            // Network player, receive data
+            // this.correctPlayerPos = (Vector3)stream.ReceiveNext();
+            // this.correctPlayerRot = (Quaternion)stream.ReceiveNext();
+        }
+    }
 }

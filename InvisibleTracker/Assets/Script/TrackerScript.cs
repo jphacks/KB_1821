@@ -36,7 +36,6 @@ public class TrackerScript : MonoBehaviour {
 		if(col.gameObject.tag == "Object"){
 			collisionTrigger = true;
 		}
-		//ぶつかった音は当たったオブジェクトによって変えたいので，オブジェクト側で鳴らす
 
 		//オブジェクトと衝突したときの処理　効果音再生とオブジェクト情報の取得を行う
 		if(col.gameObject.tag == "Object"){
