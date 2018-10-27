@@ -57,9 +57,7 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 	{
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 		GUILayout.Label(playerName);
-		GUILayout.Label(clipName);
-		// GUILayout.Label(soundInfo.hensu1.ToString());
-		// GUILayout.Label(soundInfo.hensu2.ToString());
+		// GUILayout.Label(clipName); // for Debug
 	}
 
 	void OnJoinedLobby()
