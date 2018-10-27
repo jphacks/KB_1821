@@ -7,7 +7,7 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 	private const string ROOM_NAME  = "RoomA";
 	private static PhotonView ScenePhotonView;
 
-	private SoundController soundInfo;
+	private SoundController SoundInfo;
 
 	private string playerName = "";
 
@@ -21,9 +21,11 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 	void Start()
 	{
 		PhotonNetwork.ConnectUsingSettings( "v.1.0.0" );
+		
 		ScenePhotonView = this.GetComponent<PhotonView>();
 		TrackerAudio = GetComponent<AudioSource> ();
-		soundInfo = GameObject.Find("SoundManager").GetComponent<SoundController> ();
+
+		SoundInfo = GameObject.Find("SoundManager").GetComponent<SoundController>();
 	}
 
 	void OnGUI()
@@ -31,8 +33,8 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 		GUILayout.Label(playerName);
 		GUILayout.Label(clipName);
-		GUILayout.Label(soundInfo.hensu1.ToString());
-		GUILayout.Label(soundInfo.hensu2.ToString());
+		// GUILayout.Label(soundInfo.hensu1.ToString());
+		// GUILayout.Label(soundInfo.hensu2.ToString());
 	}
 
 	void OnJoinedLobby()
@@ -50,6 +52,7 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 		int playerID = PhotonNetwork.player.ID;
 		ScenePhotonView.RPC("SpawnObject", PhotonTargets.MasterClient, playerID);
 		playerName = "Player" + playerID;
+		SoundInfo.SetPlayerID(playerID);
 		Debug.Log(playerName);
 	}
 
