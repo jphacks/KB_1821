@@ -44,11 +44,11 @@ public class GameManagerScript : MonoBehaviour {
 				//AscoreText.text = null;	
 				//BscoreText.text = null;
 				gameend = false;		//処理が重複しないようにboolを切る
-				Invoke ("Retry", 10f);	//再起処理　ここは手動でもいいのかも
+				// Invoke ("Retry", 10f);	//再起処理　ここは手動でもいいのかも
 			}
 		}
 	}
-	public void Retry(){
-		SceneManager.LoadScene ("HostServer");
-	}
+	// public void Retry(){
+	// 	SceneManager.LoadScene ("HostServer");
+	// }
 }

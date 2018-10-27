@@ -16,9 +16,6 @@ public class SoundController : Photon.MonoBehaviour {
 	// public Dictionary<string, float> recievedVolumeDictForPlayerA = new Dictionary<string,float> ();
 	// public Dictionary<string, float> recievedVolumeDictForPlayerB = new Dictionary<string,float> ();
 
-	public int hensu1 = 0;
-	public float hensu2 = 0f;
-
 	private PhotonView  m_photonView    = null;
 	private string[] objectNameList = {"Piano", "Cat", "Box"};
 
