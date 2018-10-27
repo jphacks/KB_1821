@@ -47,12 +47,10 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 		Debug.Log(PhotonNetwork.connectionStateDetailed.ToString());
 
 		if(controllerInfoForPayerA != null){
-			Debug.Log("activate player A");
 			SoundInfo.SetVolumeForPalyerA(controllerInfoForPayerA.objectDistanceDict);
 		}
 
 		if(controllerInfoForPayerB != null){
-			Debug.Log("activate player B");
 			SoundInfo.SetVolumeForPalyerB(controllerInfoForPayerB.objectDistanceDict);
 		}
 
@@ -116,7 +114,8 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 							GameObject obj  = Instantiate( PlayerA, controller.transform.position, Quaternion.identity);
 							obj.transform.name = "Player" + PlayerID;
 							obj.transform.parent = controller.transform;
-							controllerInfoForPayerA =  controller.GetComponent<PlayerSyncController>();
+							this.controllerInfoForPayerA =  controller.GetComponent<PlayerSyncController>();
+							Debug.Log("activate player A");
 							// is_ativate_PalyerA = true;
 							break;
 						}
@@ -125,7 +124,8 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 							GameObject obj  = Instantiate( PlayerB, controller.transform.position, Quaternion.identity);
 							obj.transform.name = "Player" + PlayerID;
 							obj.transform.parent = controller.transform;
-							controllerInfoForPayerB =  controller.GetComponent<PlayerSyncController>();
+							this.controllerInfoForPayerB =  controller.GetComponent<PlayerSyncController>();
+							Debug.Log("activate player A");
 							// is_ativate_PalyerB = true;
 							break;   
 						}
