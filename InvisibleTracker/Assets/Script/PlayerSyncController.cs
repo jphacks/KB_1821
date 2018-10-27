@@ -8,7 +8,7 @@ public class PlayerSyncController : MonoBehaviour
     private static float volumeMin = 0.0f;
     private static float volumeMax = 1.0f;
     private static float distanceMin = 0.0f;
-    private static float distanceMax = 2.5f;
+    private static float distanceMax = 2.0f;
 
     void Start()
     {
@@ -44,7 +44,7 @@ public class PlayerSyncController : MonoBehaviour
             string target_name = col.transform.name;
             float distance = (float) Vector3.Distance(col.transform.position, this.transform.position);
             float lerped_distance = Mathf.InverseLerp (distanceMin, distanceMax, distance);
-            float volume = Mathf.Lerp(volumeMin, volumeMax, lerped_distance);
+            float volume = Mathf.Lerp(volumeMax, volumeMin, lerped_distance);
 
             objectDistanceDict[target_name] = volume;
         }

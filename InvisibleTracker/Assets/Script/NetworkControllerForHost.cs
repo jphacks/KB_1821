@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using Photon;
 
 public class NetworkControllerForHost : Photon.MonoBehaviour
@@ -46,7 +47,14 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 	{
 		Debug.Log(PhotonNetwork.connectionStateDetailed.ToString());
 
+		// Debug.Log("controllerInfoForPayerA is " + controllerInfoForPayerA);
+		// Debug.Log("controllerInfoForPayerB is " + controllerInfoForPayerB);
+
 		if(controllerInfoForPayerA != null){
+			// foreach (KeyValuePair<string, float> pair in controllerInfoForPayerA.objectDistanceDict) {
+   //          	Debug.Log (pair.Key + " : " + pair.Value);
+   //      	}
+			// controllerInfoForPayerA.objectDistanceDict
 			SoundInfo.SetVolumeForPalyerA(controllerInfoForPayerA.objectDistanceDict);
 		}
 
@@ -111,21 +119,21 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 					// if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
 						if (PlayerID == 2)
 						{
-							GameObject obj  = Instantiate( PlayerA, controller.transform.position, Quaternion.identity);
-							obj.transform.name = "Player" + PlayerID;
-							obj.transform.parent = controller.transform;
-							this.controllerInfoForPayerA =  controller.GetComponent<PlayerSyncController>();
-							Debug.Log("activate player A");
+							GameObject n_player = Instantiate( PlayerA, controller.transform.position, Quaternion.identity);
+							n_player.transform.name = "Player" + PlayerID;
+							n_player.transform.parent = controller.transform;
+							controllerInfoForPayerA =  n_player.GetComponent<PlayerSyncController>();
+							Debug.Log("activated player A");
 							// is_ativate_PalyerA = true;
 							break;
 						}
 						else if (PlayerID == 3)
 						{
-							GameObject obj  = Instantiate( PlayerB, controller.transform.position, Quaternion.identity);
-							obj.transform.name = "Player" + PlayerID;
-							obj.transform.parent = controller.transform;
-							this.controllerInfoForPayerB =  controller.GetComponent<PlayerSyncController>();
-							Debug.Log("activate player A");
+							GameObject n_player = Instantiate( PlayerB, controller.transform.position, Quaternion.identity);
+							n_player.transform.name = "Player" + PlayerID;
+							n_player.transform.parent = controller.transform;
+							controllerInfoForPayerB =  n_player.GetComponent<PlayerSyncController>();
+							Debug.Log("activated player B");
 							// is_ativate_PalyerB = true;
 							break;   
 						}
