@@ -72,15 +72,6 @@ public class SoundController : Photon.MonoBehaviour {
         {
             return;
         }
-
-        // Debug.Log("Volume of PlayerA");
-        // foreach (KeyValuePair<string, float> pair in requestedVolumeDictForPlayerA) {
-        //     Debug.Log (pair.Key + " : " + pair.Value);
-        // }
-        // Debug.Log("Volume of PlayerB");
-        // foreach (KeyValuePair<string, float> pair in requestedVolumeDictForPlayerB) {
-        //     Debug.Log (pair.Key + " : " + pair.Value);
-        // }
 	}
 
 	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -103,15 +94,12 @@ public class SoundController : Photon.MonoBehaviour {
         } else {
             foreach (string objectName in objectNameList)
             {
-                requestedVolumeDictForPlayerA[objectName] = (float)stream.ReceiveNext();
+            	requestedVolumeDictForPlayerA[objectName] = Mathf.Lerp(requestedVolumeDictForPlayerA[objectName], (float)stream.ReceiveNext(), Time.deltaTime * 5);
             }
             foreach (string objectName in objectNameList)
             {
-                requestedVolumeDictForPlayerB[objectName] = (float)stream.ReceiveNext();
+            	requestedVolumeDictForPlayerB[objectName] = Mathf.Lerp(requestedVolumeDictForPlayerB[objectName], (float)stream.ReceiveNext(), Time.deltaTime * 5);
             }
-            //データの受信
-            // this.hensu1 = (int)stream.ReceiveNext();
-            // this.hensu2 = (float)stream.ReceiveNext();
         }
     }
 

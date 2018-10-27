@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using Photon;
 
 public class NetworkControllerForClient : Photon.MonoBehaviour
@@ -11,9 +12,13 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 
 	private string playerName = "";
 
-	public AudioSource TrackerAudio;
+	private AudioSource TrackerAudio;
+	private AudioSource ObjectOnceAudio;
+	private List<AudioSource> objectRepeatAudioSources = new List<AudioSource>();
+
 	public AudioClip[] controllerAudioClips;
-	public AudioClip[] objectAudioClips;
+	public AudioClip[] objectOnceAudioClips;
+	public AudioClip[] objectRepeatAudioClips;
 
 	// For Debug
 	private string clipName = "";
@@ -21,6 +26,20 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 	void Start()
 	{
 		PhotonNetwork.ConnectUsingSettings( "v.1.0.0" );
+
+		TrackerAudio = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+		ObjectOnceAudio = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+
+		foreach (AudioClip clip in objectRepeatAudioClips) {
+			AudioSource tempAudio = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+			tempAudio.clip = clip;
+			tempAudio.volume = 0.0f;
+			objectRepeatAudioSources.Add(tempAudio);
+		}
+
+		foreach (AudioSource source in objectRepeatAudioSources) {
+			source.Play();
+		}
 		
 		ScenePhotonView = this.GetComponent<PhotonView>();
 		TrackerAudio = GetComponent<AudioSource> ();
@@ -56,6 +75,34 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 		Debug.Log(playerName);
 	}
 
+	void Update(){
+		if(playerName != ""){
+
+			if(playerName == "Player2"){
+				foreach (AudioSource source in objectRepeatAudioSources) {
+					foreach (KeyValuePair<string, float> pair in SoundInfo.requestedVolumeDictForPlayerA) {
+						if(pair.Key == source.clip.name){
+            				source.volume = pair.Value;
+            				break;
+						}
+        			}
+				}
+			}
+			
+			else if(playerName == "Player3"){
+				foreach (AudioSource source in objectRepeatAudioSources) {
+					foreach (KeyValuePair<string, float> pair in SoundInfo.requestedVolumeDictForPlayerB) {
+						if(pair.Key == source.clip.name){
+            				source.volume = pair.Value;
+            				break;
+						}
+        			}
+				}
+			}
+			
+		}
+	}
+
 	[PunRPC]
 	void PlayControllerSound(string ClipName, string r_PlayerName)
 	{
@@ -77,10 +124,10 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 		if (r_PlayerName == this.playerName) {
 			clipName = ClipName;
 
-			foreach (AudioClip clip in objectAudioClips) {
+			foreach (AudioClip clip in objectOnceAudioClips) {
 				if (clip.name == ClipName) {
-					TrackerAudio.clip = clip;
-					TrackerAudio.Play ();
+					ObjectOnceAudio.clip = clip;
+					ObjectOnceAudio.Play ();
 				}
 			}
 		}
