@@ -8,8 +8,13 @@ public class SoundController : Photon.MonoBehaviour {
 	[SerializeField]
 	private int PlayerID;
 
-	public Dictionary<string, float> objectVolumeDictForPlayerA = new Dictionary<string,float> ();
-	public Dictionary<string, float> objectVolumeDictForPlayerB = new Dictionary<string,float> ();
+	// for pass
+	public Dictionary<string, float> requestedVolumeDictForPlayerA = new Dictionary<string,float> ();
+	public Dictionary<string, float> requestedVolumeDictForPlayerB = new Dictionary<string,float> ();
+
+	// // for recieve
+	// public Dictionary<string, float> recievedVolumeDictForPlayerA = new Dictionary<string,float> ();
+	// public Dictionary<string, float> recievedVolumeDictForPlayerB = new Dictionary<string,float> ();
 
 	public int hensu1 = 0;
 	public float hensu2 = 0f;
@@ -41,8 +46,8 @@ public class SoundController : Photon.MonoBehaviour {
         foreach (string objectName in objectNameList)
         {
             Debug.Log(objectName);
-            objectVolumeDictForPlayerA.Add(objectName, 0);
-            objectVolumeDictForPlayerB.Add(objectName, 0);
+            requestedVolumeDictForPlayerA.Add(objectName, 0);
+            requestedVolumeDictForPlayerB.Add(objectName, 0);
         }
 
         if( !m_photonView.isMine )
@@ -53,41 +58,56 @@ public class SoundController : Photon.MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		Debug.Log("Volume of PlayerA");
+        foreach (KeyValuePair<string, float> pair in requestedVolumeDictForPlayerA) {
+            Debug.Log (pair.Key + " : " + pair.Value);
+        }
+        Debug.Log("Volume of PlayerB");
+        foreach (KeyValuePair<string, float> pair in requestedVolumeDictForPlayerB) {
+            Debug.Log (pair.Key + " : " + pair.Value);
+        }
+
 		if( !m_photonView.isMine )
         {
             return;
         }
 
-        Debug.Log("Volume of PlayerA");
-        foreach (KeyValuePair<string, float> pair in objectVolumeDictForPlayerA) {
-            Debug.Log (pair.Key + " : " + pair.Value);
-        }
-        Debug.Log("Volume of PlayerB");
-        foreach (KeyValuePair<string, float> pair in objectVolumeDictForPlayerB) {
-            Debug.Log (pair.Key + " : " + pair.Value);
-        }
+        // Debug.Log("Volume of PlayerA");
+        // foreach (KeyValuePair<string, float> pair in requestedVolumeDictForPlayerA) {
+        //     Debug.Log (pair.Key + " : " + pair.Value);
+        // }
+        // Debug.Log("Volume of PlayerB");
+        // foreach (KeyValuePair<string, float> pair in requestedVolumeDictForPlayerB) {
+        //     Debug.Log (pair.Key + " : " + pair.Value);
+        // }
 	}
 
 	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting) {
             //データの送信
+            if( !m_photonView.isMine )
+        	{
+            	return;
+        	}
+
             foreach (string objectName in objectNameList)
             {
-                stream.SendNext(objectVolumeDictForPlayerA[objectName]);
+                stream.SendNext(requestedVolumeDictForPlayerA[objectName]);
             }
             foreach (string objectName in objectNameList)
             {
-                stream.SendNext(objectVolumeDictForPlayerB[objectName]);
+                stream.SendNext(requestedVolumeDictForPlayerB[objectName]);
             }
         } else {
             foreach (string objectName in objectNameList)
             {
-                objectVolumeDictForPlayerA[objectName] = (float)stream.ReceiveNext();
+                requestedVolumeDictForPlayerA[objectName] = (float)stream.ReceiveNext();
             }
             foreach (string objectName in objectNameList)
             {
-                objectVolumeDictForPlayerB[objectName] = (float)stream.ReceiveNext();
+                requestedVolumeDictForPlayerB[objectName] = (float)stream.ReceiveNext();
             }
             //データの受信
             // this.hensu1 = (int)stream.ReceiveNext();
@@ -100,21 +120,21 @@ public class SoundController : Photon.MonoBehaviour {
     }
 
     public void SetVolumeForPalyerA(Dictionary<string, float> volumeInfo){
-        if(!CompareDict(objectVolumeDictForPlayerA, volumeInfo)){
+        if(!CompareDict(requestedVolumeDictForPlayerA, volumeInfo)){
             Debug.Log("called set volume A");
 
         	foreach (string key in volumeInfo.Keys) {
-        		objectVolumeDictForPlayerA[key] = volumeInfo[key];
+        		requestedVolumeDictForPlayerA[key] = volumeInfo[key];
         	}
         }
     }
 
     public void SetVolumeForPalyerB(Dictionary<string, float> volumeInfo){
-        if(!CompareDict(objectVolumeDictForPlayerB, volumeInfo)){
+        if(!CompareDict(requestedVolumeDictForPlayerB, volumeInfo)){
             Debug.Log("called set volume B");
 
             foreach (string key in volumeInfo.Keys) {
-                objectVolumeDictForPlayerB[key] = volumeInfo[key];
+                requestedVolumeDictForPlayerB[key] = volumeInfo[key];
             }
         }
     }
