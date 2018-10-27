@@ -30,9 +30,9 @@ public class PlayerSyncController : MonoBehaviour
             // transform.position = Vector3.Lerp(transform.position, this.correctPlayerPos, Time.deltaTime * 5);
             // transform.rotation = Quaternion.Lerp(transform.rotation, this.correctPlayerRot, Time.deltaTime * 5);
         // }
-        foreach (KeyValuePair<string, float> pair in objectDistanceDict) {
-            Debug.Log (pair.Key + " : " + pair.Value);
-        }
+        // foreach (KeyValuePair<string, float> pair in objectDistanceDict) {
+        //     Debug.Log (pair.Key + " : " + pair.Value);
+        // }
     }
 
     void OnCollisionEnter (Collision col ){

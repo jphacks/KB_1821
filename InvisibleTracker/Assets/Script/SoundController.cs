@@ -41,6 +41,16 @@ public class SoundController : Photon.MonoBehaviour {
         {
             return;
         }
+
+        Debug.Log("Volume of PlayerA");
+        foreach (KeyValuePair<string, float> pair in objectVolumeDictForPlayerA) {
+            Debug.Log (pair.Key + " : " + pair.Value);
+        }
+
+        Debug.Log("Volume of PlayerB");
+        foreach (KeyValuePair<string, float> pair in objectVolumeDictForPlayerB) {
+            Debug.Log (pair.Key + " : " + pair.Value);
+        }
 	}
 
 	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -61,12 +71,14 @@ public class SoundController : Photon.MonoBehaviour {
     }
 
     public void SetVolumeForPalyerA(Dictionary<string, float> volumeInfo){
+        Debug.Log("called set volume A");
     	foreach (string key in volumeInfo.Keys) {
     		objectVolumeDictForPlayerA[key] = volumeInfo[key];
     	}
     }
 
     public void SetVolumeForPalyerB(Dictionary<string, float> volumeInfo){
+        Debug.Log("called set volume B");
     	foreach (string key in volumeInfo.Keys) {
     		objectVolumeDictForPlayerB[key] = volumeInfo[key];
     	}

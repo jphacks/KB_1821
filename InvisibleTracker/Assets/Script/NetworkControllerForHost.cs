@@ -19,9 +19,6 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 	private GameObject PlayerA = null;
 	private GameObject PlayerB = null;
 
-	public bool is_ativate_PalyerA = false;
-	public bool is_ativate_PalyerB = false;
-
 	private SoundController SoundInfo;
 
 	private PlayerSyncController controllerInfoForPayerA;
@@ -48,6 +45,16 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 	void Update()
 	{
 		Debug.Log(PhotonNetwork.connectionStateDetailed.ToString());
+
+		if(controllerInfoForPayerA != null){
+			Debug.Log("activate player A");
+			SoundInfo.SetVolumeForPalyerA(controllerInfoForPayerA.objectDistanceDict);
+		}
+
+		if(controllerInfoForPayerB != null){
+			Debug.Log("activate player B");
+			SoundInfo.SetVolumeForPalyerB(controllerInfoForPayerB.objectDistanceDict);
+		}
 
 	}
 
