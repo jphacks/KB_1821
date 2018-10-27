@@ -14,9 +14,18 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 
 	private static PhotonView ScenePhotonView;
 	public static int playerID;
+	private string m_SceneName;
 
 	private GameObject PlayerA = null;
 	private GameObject PlayerB = null;
+
+	public bool is_ativate_PalyerA = false;
+	public bool is_ativate_PalyerB = false;
+
+	private SoundController SoundInfo;
+
+	private PlayerSyncController controllerInfoForPayerA;
+	private PlayerSyncController controllerInfoForPayerB;
 
 	static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
 		Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>(true);
@@ -28,6 +37,9 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 	{
 		PhotonNetwork.ConnectUsingSettings( "v.1.0.0" );
 		ScenePhotonView = this.GetComponent<PhotonView>();
+		SoundInfo = GameObject.Find("SoundManager").GetComponent<SoundController>();
+		controllerInfoForPayerA = null;
+		controllerInfoForPayerB = null;
 		
 		PlayerA = (GameObject) Resources.Load("Prefabs/Player2");
 		PlayerB = (GameObject) Resources.Load("Prefabs/Player3");
@@ -36,6 +48,7 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 	void Update()
 	{
 		Debug.Log(PhotonNetwork.connectionStateDetailed.ToString());
+
 	}
 
 	void OnGUI()
@@ -53,6 +66,7 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 		if (PhotonNetwork.playerList.Length == 1)
 		{
 			playerID = PhotonNetwork.player.ID;
+			SoundInfo.SetPlayerID(playerID);
 		}
 
 		Debug.Log("playerID: " + playerID);
@@ -77,7 +91,6 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 		{
 			ScenePhotonView.RPC("PlayObjectSound", PhotonTargets.Others, ClipName, PlayerName);
 		}
-		
 	}
 
 	[PunRPC]
@@ -96,6 +109,8 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 							GameObject obj  = Instantiate( PlayerA, controller.transform.position, Quaternion.identity);
 							obj.transform.name = "Player" + PlayerID;
 							obj.transform.parent = controller.transform;
+							controllerInfoForPayerA =  controller.GetComponent<PlayerSyncController>();
+							// is_ativate_PalyerA = true;
 							break;
 						}
 						else if (PlayerID == 3)
@@ -103,6 +118,8 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 							GameObject obj  = Instantiate( PlayerB, controller.transform.position, Quaternion.identity);
 							obj.transform.name = "Player" + PlayerID;
 							obj.transform.parent = controller.transform;
+							controllerInfoForPayerB =  controller.GetComponent<PlayerSyncController>();
+							// is_ativate_PalyerB = true;
 							break;   
 						}
 					// }

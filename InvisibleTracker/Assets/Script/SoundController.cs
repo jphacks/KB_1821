@@ -5,22 +5,34 @@ using Photon;
 
 public class SoundController : Photon.MonoBehaviour {
 
-	public Dictionary<string, float> objectDistanceDict_forPlayerA = new Dictionary<string,float> ();
-	public Dictionary<string, float> objectDistanceDict_forPlayerB = new Dictionary<string,float> ();
+	[SerializeField]
+	private int PlayerID;
+
+	public Dictionary<string, float> objectVolumeDictForPlayerA = new Dictionary<string,float> ();
+	public Dictionary<string, float> objectVolumeDictForPlayerB = new Dictionary<string,float> ();
 
 	public int hensu1 = 0;
 	public float hensu2 = 0f;
 
 	private PhotonView  m_photonView    = null;
+	private string[] objectNameList = {"Piano", "Cat", "Box"};
 
 	// Use this for initialization
 	void Start () {
 		m_photonView    = GetComponent<PhotonView>();
 
-		if( !m_photonView.isMine )
+        foreach (string objectName in objectNameList)
+        {
+            objectVolumeDictForPlayerA.Add(objectName, 0);
+            objectVolumeDictForPlayerB.Add(objectName, 0);
+        }
+
+        if( !m_photonView.isMine )
         {
             return;
         }
+
+        Debug.Log("I'm owner");
 	}
 	
 	// Update is called once per frame
@@ -29,9 +41,6 @@ public class SoundController : Photon.MonoBehaviour {
         {
             return;
         }
-
-        hensu1 += 1;
-        hensu2 += 0.1f;
 	}
 
 	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -45,5 +54,21 @@ public class SoundController : Photon.MonoBehaviour {
             this.hensu1 = (int)stream.ReceiveNext();
             this.hensu2 = (float)stream.ReceiveNext();
         }
+    }
+
+    public void SetPlayerID(int m_Id){
+    	this.PlayerID = m_Id;
+    }
+
+    public void SetVolumeForPalyerA(Dictionary<string, float> volumeInfo){
+    	foreach (string key in volumeInfo.Keys) {
+    		objectVolumeDictForPlayerA[key] = volumeInfo[key];
+    	}
+    }
+
+    public void SetVolumeForPalyerB(Dictionary<string, float> volumeInfo){
+    	foreach (string key in volumeInfo.Keys) {
+    		objectVolumeDictForPlayerB[key] = volumeInfo[key];
+    	}
     }
 }
