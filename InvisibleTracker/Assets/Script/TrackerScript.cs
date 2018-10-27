@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
 
-public class TrackerScript : MonoBehaviour {
+public class TrackerScript : Photon.MonoBehaviour {
 
 	public SteamVR_TrackedObject trackedObject;	//SteamVRでViveトラッカーを扱う宣言
 
@@ -16,7 +17,7 @@ public class TrackerScript : MonoBehaviour {
 
 	public GameObject CollisionObject; 	//いまトラッカーにぶつかっているオブジェクトを保持しておく変数
 
-	private NetworkControllerForHost NetworkInfo;
+	private NetworkControllerForHost networkInfo;
 
 	static public GameObject getChildGameObject(GameObject fromGameObject, string withName) {
 		Transform[] ts = fromGameObject.transform.GetComponentsInChildren<Transform>(true);
@@ -27,7 +28,7 @@ public class TrackerScript : MonoBehaviour {
 	void Start () {
 		trackedObject = GetComponent<SteamVR_TrackedObject>();	//トラッカー制御スクリプトの取得
 		TrackerAudio = GetComponent<AudioSource> ();			//効果音コンポーネントの取得
-		NetworkInfo = GameObject.Find("GameManagerForHostServer").GetComponent<NetworkControllerForHost> ();
+		networkInfo = GameObject.Find("GameManagerForHostServer").GetComponent<NetworkControllerForHost> ();
 		collisionTrigger = false;								//衝突判定を切っておく
 	}
 
@@ -36,7 +37,6 @@ public class TrackerScript : MonoBehaviour {
 		if(col.gameObject.tag == "Object"){
 			collisionTrigger = true;
 		}
-		//ぶつかった音は当たったオブジェクトによって変えたいので，オブジェクト側で鳴らす
 
 		//オブジェクトと衝突したときの処理　効果音再生とオブジェクト情報の取得を行う
 		if(col.gameObject.tag == "Object"){
@@ -70,7 +70,7 @@ public class TrackerScript : MonoBehaviour {
 			if(player != null)
 			{
 				Debug.Log ("Call Sound [Missed]");
-				NetworkInfo.PlaySound ("Missed", player.transform.name, "Controller");
+				networkInfo.PlaySound ("Missed", player.transform.name, "Controller");
 			}
 			//TrackerAudio.clip = audioClips[0];	//鳴らす効果音を空振り効果音に差し替え
 			//TrackerAudio.Play(); 				//ゲット効果音再生
@@ -80,7 +80,7 @@ public class TrackerScript : MonoBehaviour {
 			if(player != null)
 			{
 				Debug.Log ("Call Sound [Missed]");
-				NetworkInfo.PlaySound ("Missed", player.transform.name, "Controller");
+				networkInfo.PlaySound ("Missed", player.transform.name, "Controller");
 			}
 		}
 
@@ -91,7 +91,7 @@ public class TrackerScript : MonoBehaviour {
 			if(player != null)
 			{
 				Debug.Log ("Call Sound [Catch]");
-				NetworkInfo.PlaySound ("Catch", player.transform.name, "Controller");
+				networkInfo.PlaySound ("Catch", player.transform.name, "Controller");
 			}
 			CollisionObject.transform.parent = gameObject.transform; //ゲット処理　プレイヤのコントローラに追従するよう親子関係を紐づけ
 		}
@@ -102,13 +102,21 @@ public class TrackerScript : MonoBehaviour {
 			if(player != null)
 			{
 				Debug.Log ("Call Sound [Release]");
-				NetworkInfo.PlaySound ("Release", player.transform.name, "Controller");
+				networkInfo.PlaySound ("Release", player.transform.name, "Controller");
 			} 									//リリース効果音再生
 			CollisionObject.transform.parent = null; 				//リリース処理　親子関係を解消して追従しないようにする
 		}
 	}
 
 	void OnCollisionEnter (Collision col ){
+		string objectName = col.transform.name;
+		GameObject player = getChildGameObject (this.transform.gameObject, "Player");
 
+		if(player != null){
+			string playerName = player.transform.name;
+			Debug.LogFormat ("Call Sound [{0}] by [{1}]", objectName, playerName);
+			networkInfo.PlaySound (objectName, playerName, "Object");
+			Handheld.Vibrate();
+		}
 	}
 }

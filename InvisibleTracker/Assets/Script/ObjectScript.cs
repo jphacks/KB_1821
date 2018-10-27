@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Photon;
 
 //オブジェクト自体が自分で管理する処理たち
 //衝突押下音再生，ゴール到達判定，ゲームマネージャーへの得点加算を担当
@@ -12,7 +13,7 @@ using UnityEngine;
 //ゴール判定も当たり判定を使って済ませたいのでオブジェクト側で行う
 //トラッカたープレイヤ
 
-public class ObjectScript : MonoBehaviour {
+public class ObjectScript : Photon.MonoBehaviour {
 
 	public AudioSource objectCollisionAudio;
 	public AudioClip[] objectCollisionClip;
@@ -47,9 +48,9 @@ public class ObjectScript : MonoBehaviour {
 		{
 			string playerName = player.transform.name;
 
-			Debug.LogFormat ("Call Sound [{0}] by [{1}]", objectName, playerName);
+			// Debug.LogFormat ("Call Sound [{0}] by [{1}]", objectName, playerName);
 
-			networkInfo.PlaySound (objectName, playerName, "Object");
+			// networkInfo.PlaySound (objectName, playerName, "Object");
 
 			if(col.gameObject.tag == "Goal"){
 				Debug.Log ("in Goal!");

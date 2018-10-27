@@ -15,6 +15,8 @@ TagManager:
   - Objects_Mat
   - Objects_Cat
   - Controller
+  - Objects
+  - Map
   layers:
   - Default
   - TransparentFX

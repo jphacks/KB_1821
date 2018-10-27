@@ -1,47 +1,59 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-public class PlayerSyncController : Photon.MonoBehaviour
+public class PlayerSyncController : MonoBehaviour
 {
-    private Vector3 correctPlayerPos = Vector3.zero; // We lerp towards this
-    private Quaternion correctPlayerRot = Quaternion.identity; // We lerp towards this
-	[SerializeField]
-	private string controllerName = ""; // We lerp towards this
-	private PhotonView m_photonView = null;
+    public Dictionary<string, float> objectDistanceDict = new Dictionary<string,float> ();
+
+    private static float volumeMin = 0.0f;
+    private static float volumeMax = 1.0f;
+    private static float distanceMin = 0.0f;
+    private static float distanceMax = 2.0f;
+
+    void Start()
+    {
+        var childTransform = GameObject.Find("GameMap").GetComponentsInChildren<Transform>();
+        foreach (Transform child in childTransform)
+        {
+            if (child.gameObject.tag == "Object")
+            {
+                objectDistanceDict.Add(child.name, 0);
+            }
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.isMine)
-        {
-            transform.position = Vector3.Lerp(transform.position, this.correctPlayerPos, Time.deltaTime * 5);
-            transform.rotation = Quaternion.Lerp(transform.rotation, this.correctPlayerRot, Time.deltaTime * 5);
+        // if (!photonView.isMine)
+        // {
+            // transform.position = Vector3.Lerp(transform.position, this.correctPlayerPos, Time.deltaTime * 5);
+            // transform.rotation = Quaternion.Lerp(transform.rotation, this.correctPlayerRot, Time.deltaTime * 5);
+        // }
+        // foreach (KeyValuePair<string, float> pair in objectDistanceDict) {
+        //     Debug.Log (pair.Key + " : " + pair.Value);
+        // }
+    }
+
+    void OnCollisionEnter (Collision col ){
+
+    }
+
+    void OnCollisionStay(Collision col){
+        if(col.gameObject.tag == "Object"){
+            string target_name = col.transform.name;
+            float distance = (float) Vector3.Distance(col.transform.position, this.transform.position);
+            float lerped_distance = Mathf.InverseLerp (distanceMin, distanceMax, distance);
+            float volume = Mathf.Lerp(volumeMax, volumeMin, lerped_distance);
+
+            objectDistanceDict[target_name] = volume;
         }
     }
 
-	void Awake()
-	{
-		m_photonView = GetComponent<PhotonView> ();
-	}
-
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.isWriting)
-        {
-            // We own this player: send the others our data
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            // Network player, receive data
-            this.correctPlayerPos = (Vector3)stream.ReceiveNext();
-            this.correctPlayerRot = (Quaternion)stream.ReceiveNext();
+    void OnCollisionExit(Collision col){
+        if(col.gameObject.tag == "Object"){
+            string target_name = col.transform.name;
+            objectDistanceDict[target_name] = 0;
         }
     }
-
-	public void setControllerName(string name)
-	{
-		this.controllerName = name;
-		Debug.Log ("setted" + this.controllerName);
-	}
 }
