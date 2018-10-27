@@ -48,9 +48,9 @@ public class ObjectScript : Photon.MonoBehaviour {
 		{
 			string playerName = player.transform.name;
 
-			Debug.LogFormat ("Call Sound [{0}] by [{1}]", objectName, playerName);
+			// Debug.LogFormat ("Call Sound [{0}] by [{1}]", objectName, playerName);
 
-			networkInfo.PlaySound (objectName, playerName, "Object");
+			// networkInfo.PlaySound (objectName, playerName, "Object");
 
 			if(col.gameObject.tag == "Goal"){
 				Debug.Log ("in Goal!");

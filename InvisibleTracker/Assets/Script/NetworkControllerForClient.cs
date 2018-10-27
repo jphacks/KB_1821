@@ -13,7 +13,7 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 	private string playerName = "";
 
 	private AudioSource TrackerAudio;
-	private AudioSource ObjectOnceAudio;
+	private List<AudioSource> objectOnceAudioSources = new List<AudioSource>();
 	private List<AudioSource> objectRepeatAudioSources = new List<AudioSource>();
 
 	public AudioClip[] controllerAudioClips;
@@ -28,11 +28,17 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 		PhotonNetwork.ConnectUsingSettings( "v.1.0.0" );
 
 		TrackerAudio = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
-		ObjectOnceAudio = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+
+		foreach (AudioClip clip in objectOnceAudioClips) {
+			AudioSource tempAudio = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+			tempAudio.clip = clip;
+			objectOnceAudioSources.Add(tempAudio);
+		}
 
 		foreach (AudioClip clip in objectRepeatAudioClips) {
 			AudioSource tempAudio = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
 			tempAudio.clip = clip;
+			tempAudio.loop = true;
 			tempAudio.volume = 0.0f;
 			objectRepeatAudioSources.Add(tempAudio);
 		}
@@ -88,7 +94,7 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
         			}
 				}
 			}
-			
+
 			else if(playerName == "Player3"){
 				foreach (AudioSource source in objectRepeatAudioSources) {
 					foreach (KeyValuePair<string, float> pair in SoundInfo.requestedVolumeDictForPlayerB) {
@@ -124,10 +130,11 @@ public class NetworkControllerForClient : Photon.MonoBehaviour
 		if (r_PlayerName == this.playerName) {
 			clipName = ClipName;
 
-			foreach (AudioClip clip in objectOnceAudioClips) {
-				if (clip.name == ClipName) {
-					ObjectOnceAudio.clip = clip;
-					ObjectOnceAudio.Play ();
+			foreach (AudioSource source in objectOnceAudioSources) {
+				if (source.clip.name == ClipName) {
+					if(!source.isPlaying){
+						source.Play ();
+					}
 				}
 			}
 		}

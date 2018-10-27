@@ -91,11 +91,11 @@ public class SoundController : Photon.MonoBehaviour {
         } else {
             foreach (string objectName in objectNameList)
             {
-            	requestedVolumeDictForPlayerA[objectName] = Mathf.Lerp(requestedVolumeDictForPlayerA[objectName], (float)stream.ReceiveNext(), Time.deltaTime * 5);
+            	requestedVolumeDictForPlayerA[objectName] = (float) stream.ReceiveNext();
             }
             foreach (string objectName in objectNameList)
             {
-            	requestedVolumeDictForPlayerB[objectName] = Mathf.Lerp(requestedVolumeDictForPlayerB[objectName], (float)stream.ReceiveNext(), Time.deltaTime * 5);
+            	requestedVolumeDictForPlayerB[objectName] = (float)stream.ReceiveNext();
             }
         }
     }
