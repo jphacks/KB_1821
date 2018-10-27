@@ -53,8 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a23adb48e4c34fc49933fb62269f26d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hensu1: 0
-  hensu2: 0
+  PlayerID: 0
 --- !u!114 &114797224753257590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,7 +142,7 @@ MonoBehaviour:
   - {fileID: 114797224753257590}
   - {fileID: 114357107384914148}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 2
+  instantiationId: 2
   currentMasterID: -1
   isRuntimeInstantiated: 0

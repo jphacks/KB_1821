@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4970328244080548}
-  - component: {fileID: 82908144048756460}
   - component: {fileID: 114633458489208638}
   - component: {fileID: 114974015249936770}
   - component: {fileID: 114090999137161358}
@@ -51,86 +50,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1160654786323322}
   m_Enabled: 1
---- !u!82 &82908144048756460
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1160654786323322}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 918ee1b51fd32d748a66d520586569ba, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!114 &114090999137161358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,8 +72,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 1
+  instantiationId: 1
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114633458489208638
@@ -187,12 +106,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480f55158ede0894aae32989dda515c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TrackerAudio: {fileID: 0}
   controllerAudioClips:
   - {fileID: 8300000, guid: f7c5046ea350a2c4b898e99dbca46c22, type: 3}
   - {fileID: 8300000, guid: 918ee1b51fd32d748a66d520586569ba, type: 3}
   - {fileID: 8300000, guid: 8b41f948bb762da40bb0d4a353dafb33, type: 3}
-  objectAudioClips:
+  objectOnceAudioClips:
   - {fileID: 8300000, guid: d10579dea7134d648bf1bb596dc7e2fb, type: 3}
   - {fileID: 8300000, guid: e2e416c5a1f265f47afa11653397586a, type: 3}
   - {fileID: 8300000, guid: f3aef4ce4398a5d4eaf50d17dfc15350, type: 3}
+  objectRepeatAudioClips:
+  - {fileID: 8300000, guid: 6846ebadc49d1427489067b60ce7ce39, type: 3}
+  - {fileID: 8300000, guid: f88f036aab80d47019bc1b897a28a126, type: 3}
+  - {fileID: 8300000, guid: ff23aa082a972485faba3d7af89cf2f5, type: 3}
