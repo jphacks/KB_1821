@@ -72,8 +72,6 @@ public class TrackerScript : Photon.MonoBehaviour {
 				Debug.Log ("Call Sound [Missed]");
 				networkInfo.PlaySound ("Missed", player.transform.name, "Controller");
 			}
-			//TrackerAudio.clip = audioClips[0];	//鳴らす効果音を空振り効果音に差し替え
-			//TrackerAudio.Play(); 				//ゲット効果音再生
 		}
 		if(releaseButtonTrigger && !collisionTrigger){	
 			GameObject player = getChildGameObject (this.transform.gameObject, "Player");

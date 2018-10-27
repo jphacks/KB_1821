@@ -8,7 +8,9 @@ public class PlayerSyncController : MonoBehaviour
     private static float volumeMin = 0.0f;
     private static float volumeMax = 1.0f;
     private static float distanceMin = 0.0f;
-    private static float distanceMax = 2.0f;
+    private static float distanceMax;
+
+    private SphereCollider colliderInfo;
 
     void Start()
     {
@@ -20,6 +22,9 @@ public class PlayerSyncController : MonoBehaviour
                 objectDistanceDict.Add(child.name, 0);
             }
         }
+
+        colliderInfo = transform.GetComponent<SphereCollider>();
+        distanceMax = (float) colliderInfo.radius;
     }
 
     // Update is called once per frame

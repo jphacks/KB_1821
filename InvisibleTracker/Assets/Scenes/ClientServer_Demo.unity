@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.68370765, g: 0.7760701, b: 0.8522479, a: 1}
+  m_IndirectSpecularColor: {r: 0.683513, g: 0.7766843, b: 0.8396523, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -150,7 +150,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4722125902556530, guid: 858033f840fca4281a04de12790e1291, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114832095828417610, guid: 858033f840fca4281a04de12790e1291,
         type: 2}
@@ -721,7 +721,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &2048139404
 GameObject:
@@ -868,21 +868,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114633458489208638, guid: 6647b44906c980047bc009ec38ab3719,
-        type: 2}
-      propertyPath: TimeText
-      value: 
-      objectReference: {fileID: 860834578}
-    - target: {fileID: 114633458489208638, guid: 6647b44906c980047bc009ec38ab3719,
-        type: 2}
-      propertyPath: AscoreText
-      value: 
-      objectReference: {fileID: 1028047736}
-    - target: {fileID: 114633458489208638, guid: 6647b44906c980047bc009ec38ab3719,
-        type: 2}
-      propertyPath: BscoreText
-      value: 
-      objectReference: {fileID: 2054722255}
     - target: {fileID: 114090999137161358, guid: 6647b44906c980047bc009ec38ab3719,
         type: 2}
       propertyPath: viewIdField

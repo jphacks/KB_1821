@@ -106,71 +106,73 @@ public class NetworkControllerForHost : Photon.MonoBehaviour
 		}
 	}
 
-	[PunRPC]
-	void SpawnObject(int PlayerID)
-	{
-		GameObject[] cotrollers = GameObject.FindGameObjectsWithTag("Controller"); 
-		foreach (GameObject controller in cotrollers) {
-			var renderModel = controller.GetComponentInChildren<SteamVR_RenderModel> ();
-			if (renderModel != null) {
-				if(getChildGameObject(controller, "Player") == null)
-				{
-					string renderModelName = renderModel.renderModelName;
-					if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
-						if (PlayerID == 2)
-						{
-							GameObject n_player = Instantiate( PlayerA, controller.transform.position, Quaternion.identity);
-							n_player.transform.name = "Player" + PlayerID;
-							n_player.transform.parent = controller.transform;
-							controllerInfoForPayerA =  n_player.GetComponent<PlayerSyncController>();
-							Debug.Log("activated player A");
-							// is_ativate_PalyerA = true;
-							break;
-						}
-						else if (PlayerID == 3)
-						{
-							GameObject n_player = Instantiate( PlayerB, controller.transform.position, Quaternion.identity);
-							n_player.transform.name = "Player" + PlayerID;
-							n_player.transform.parent = controller.transform;
-							controllerInfoForPayerB =  n_player.GetComponent<PlayerSyncController>();
-							Debug.Log("activated player B");
-							// is_ativate_PalyerB = true;
-							break;   
-						}
-					}
-				}
-			}
-		}
-	}
-	// for debug (not using vibe)
+	// for release (using vibe)
 	// [PunRPC]
 	// void SpawnObject(int PlayerID)
 	// {
 	// 	GameObject[] cotrollers = GameObject.FindGameObjectsWithTag("Controller"); 
 	// 	foreach (GameObject controller in cotrollers) {
-	// 		if(getChildGameObject(controller, "Player") == null)
-	// 		{
-	// 			if (PlayerID == 2)
+	// 		var renderModel = controller.GetComponentInChildren<SteamVR_RenderModel> ();
+	// 		if (renderModel != null) {
+	// 			if(getChildGameObject(controller, "Player") == null)
 	// 			{
-	// 				GameObject n_player = Instantiate( PlayerA, controller.transform.position, Quaternion.identity);
-	// 				n_player.transform.name = "Player" + PlayerID;
-	// 				n_player.transform.parent = controller.transform;
-	// 				controllerInfoForPayerA =  n_player.GetComponent<PlayerSyncController>();
-	// 				Debug.Log("activated player A");
-	// 				// is_ativate_PalyerA = true;
-	// 				break;
-	// 			}
-	// 			else if (PlayerID == 3)
-	// 			{
-	// 				GameObject n_player = Instantiate( PlayerB, controller.transform.position, Quaternion.identity);
-	// 				n_player.transform.name = "Player" + PlayerID;
-	// 				n_player.transform.parent = controller.transform;
-	// 				controllerInfoForPayerB =  n_player.GetComponent<PlayerSyncController>();
-	// 				Debug.Log("activated player B");
-	// 				// is_ativate_PalyerB = true;
-	// 				break;   
+	// 				string renderModelName = renderModel.renderModelName;
+	// 				if (renderModelName != null && renderModelName.IndexOf ("{htc}vr_tracker_vive_1_0") > -1) {
+	// 					if (PlayerID == 2)
+	// 					{
+	// 						GameObject n_player = Instantiate( PlayerA, controller.transform.position, Quaternion.identity);
+	// 						n_player.transform.name = "Player" + PlayerID;
+	// 						n_player.transform.parent = controller.transform;
+	// 						controllerInfoForPayerA =  n_player.GetComponent<PlayerSyncController>();
+	// 						Debug.Log("activated player A");
+	// 						// is_ativate_PalyerA = true;
+	// 						break;
+	// 					}
+	// 					else if (PlayerID == 3)
+	// 					{
+	// 						GameObject n_player = Instantiate( PlayerB, controller.transform.position, Quaternion.identity);
+	// 						n_player.transform.name = "Player" + PlayerID;
+	// 						n_player.transform.parent = controller.transform;
+	// 						controllerInfoForPayerB =  n_player.GetComponent<PlayerSyncController>();
+	// 						Debug.Log("activated player B");
+	// 						// is_ativate_PalyerB = true;
+	// 						break;   
+	// 					}
+	// 				}
 	// 			}
 	// 		}
 	// 	}
 	// }
+
+	// for debug (not using vibe)
+	[PunRPC]
+	void SpawnObject(int PlayerID)
+	{
+		GameObject[] cotrollers = GameObject.FindGameObjectsWithTag("Controller"); 
+		foreach (GameObject controller in cotrollers) {
+			if(getChildGameObject(controller, "Player") == null)
+			{
+				if (PlayerID == 2)
+				{
+					GameObject n_player = Instantiate( PlayerA, controller.transform.position, Quaternion.identity);
+					n_player.transform.name = "Player" + PlayerID;
+					n_player.transform.parent = controller.transform;
+					controllerInfoForPayerA =  n_player.GetComponent<PlayerSyncController>();
+					Debug.Log("activated player A");
+					// is_ativate_PalyerA = true;
+					break;
+				}
+				else if (PlayerID == 3)
+				{
+					GameObject n_player = Instantiate( PlayerB, controller.transform.position, Quaternion.identity);
+					n_player.transform.name = "Player" + PlayerID;
+					n_player.transform.parent = controller.transform;
+					controllerInfoForPayerB =  n_player.GetComponent<PlayerSyncController>();
+					Debug.Log("activated player B");
+					// is_ativate_PalyerB = true;
+					break;   
+				}
+			}
+		}
+	}
 }
